@@ -10,6 +10,16 @@ i.e. 1001, 1002, ..., 1999, 22000
 
 ## [Unreleased]
 
+## [2024.1004] - 2024-04-02
+
+### Changed 
+
+- upgraded pixi to v0.18 for pyproject.toml support
+
+### Fixed
+
+- fix(#25)
+
 ## [2024.1003] - 2024-03-21
 
 ### Changed
@@ -157,7 +167,8 @@ Please see the documentation for up to date usage instructions.
 - Merge can take unzipped fastqs now
 
 
-[Unreleased]: https://github.com/brocklab/pycashier/compare/v2024.1003...HEAD
+[Unreleased]: https://github.com/brocklab/pycashier/compare/v2024.1004...HEAD
+[2024.1004]: https://github.com/brocklab/pycashier/compare/v2024.1003...v2024.1004
 [2024.1003]: https://github.com/brocklab/pycashier/compare/v2024.1002...v2024.1003
 [2024.1002]: https://github.com/brocklab/pycashier/compare/v2024.1001...v2024.1002
 [2024.1001]: https://github.com/brocklab/pycashier/compare/v23.1.2...v2024.1001
