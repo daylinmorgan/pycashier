@@ -178,3 +178,6 @@ tmp/
 # pixi environments
 .pixi
 
+
+paper/*.jats
+paper/*.pdf
