@@ -80,3 +80,66 @@ docs = [
 ]
 
 
+[tool.pixi.project]
+name = "pycashier"
+authors = ["Daylin Morgan <daylinmorgan@gmail.com>"]
+channels = ["conda-forge" , "bioconda"]
+platforms = ["linux-64"]
+
+
+[tool.pixi.environments]
+dev = ["base", "bioconda", "dev", "build"]
+prod = ["base","bioconda", "prod"]
+build = ["build"]
+test = ["bioconda", "dev", "test"]
+test38 = ["bioconda", "dev", "test", "test38"]
+test39 = ["bioconda", "dev", "test", "test39"]
+test310 = ["bioconda", "dev", "test", "test310"]
+
+[tool.pixi.host-dependencies]
+pip = "*"
+
+[tool.pixi.feature.base.dependencies]
+# https://bioconda.github.io/faqs.html#what-versions-are-supported
+python = ">=3.8,<3.11"
+
+[tool.pixi.feature.dev.dependencies]
+pdm = ">=2.12.4,<2.13"
+
+[tool.pixi.feature.prod.dependencies]
+tomlkit = ">=0.12.4,<0.13"
+rich = ">=13.7.1,<13.8"
+click-rich-help = ">=22.1.1,<22.2"
+click = ">=8.1.7,<8.2"
+polars = ">=0.20.13,<0.21"
+
+[tool.pixi.feature.bioconda.dependencies]
+cutadapt = ">=4.6,<5"
+starcode = ">=1.4,<2"
+fastp = ">=0.23.4,<0.24"
+pysam = ">=0.22.0,<0.23"
+
+[tool.pixi.feature.test.dependencies]
+pytest = ">=7.2.0"
+pytest-cov= ">=4.1.0"
+
+[tool.pixi.feature.test38.dependencies]
+python = "3.8.*"
+[tool.pixi.feature.test39.dependencies]
+python = "3.9.*"
+[tool.pixi.feature.test310.dependencies]
+python = "3.10.*"
+
+[tool.pixi.feature.build.dependencies]
+build = "*"
+pdm-backend = "*"
+git = "*" # for scm-versioning with pdm
+
+[tool.pixi.feature.dev.tasks]
+postinstall = "pdm install"
+
+[tool.pixi.feature.build.tasks]
+build-wheel = "python -m build --no-isolation --wheel ."
+
+[tool.pixi.feature.prod.tasks]
+postinstall-production = "pip install --no-deps --disable-pip-version-check dist/pycashier-*.whl"
