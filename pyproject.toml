@@ -3,11 +3,11 @@ name = "pycashier"
 description = "cash in on expressed barcode tags"
 authors = [{ name = "Daylin Morgan", email = "daylinmorgan@gmail.com" }]
 dependencies = [
-    "rich>=12.0.0",
-    "tomlkit>=0.10.1",
-    "click-rich-help>=22.1.0",
-    "click>=8.1.0",
-    "polars>=0.20.4",
+  "rich>=12.0.0",
+  "tomlkit>=0.10.1",
+  "click-rich-help>=22.1.0",
+  "click>=8.1.0",
+  "polars>=1.0.0",
 ]
 requires-python = ">=3.8"
 readme = "README.md"
@@ -22,8 +22,10 @@ documentation = "https://docs.brocklab.com/pycashier"
 pycashier = "pycashier.cli:main"
 
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
 
 [tool.mypy]
 check_untyped_defs = true
@@ -40,58 +42,33 @@ ignore_missing_imports = true
 
 [tool.ruff]
 select = [
-    # Pyflakes
-    "F",
-    # Pycodestyle
-    "E",
-    "W",
-    # isort
-    "I001"
+  # Pyflakes
+  "F",
+  # Pycodestyle
+  "E",
+  "W",
+  # isort
+  "I001",
 ]
 # docstrings are longer because of formatting
 # ruff will handle the code formatting for us
 ignore = ["E501"]
 
 [tool.coverage.run]
-omit = [
-    "tests/",
-    "env/"
-    ]
-
-
-[tool.pdm]
-version = { source = "scm" }
-# need python 3.9 for these which I usually have anyways
-ignore_package_warnings = ["sphinx*", "myst-parser"]
-
-[tool.pdm.dev-dependencies]
-dev = [
-    "pre-commit<3.0.0,>=2.15.0",
-    "mypy>=0.982",
-    "pytest>=7.2.0",
-    "pytest-cov>=4.1.0",
-]
-docs = [
-    "sphinx",
-    "sphinx-autobuild",
-    "sphinx-copybutton",
-    "myst-parser",
-    "shibuya",
-]
-
+omit = ["tests/", "env/"]
 
 [tool.pixi.project]
 name = "pycashier"
 authors = ["Daylin Morgan <daylinmorgan@gmail.com>"]
-channels = ["conda-forge" , "bioconda"]
+channels = ["conda-forge", "bioconda"]
 platforms = ["linux-64"]
 
 
 [tool.pixi.environments]
-dev = ["base", "bioconda", "dev", "build"]
-prod = ["base","bioconda", "prod"]
-build = ["build"]
-test = ["bioconda", "dev", "test"]
+dev = ["base", "bioconda", "dev", "build", "docs", "tutorial"]
+prod = ["base", "bioconda", "prod"]
+build = ["base", "build"]
+test = ["base", "bioconda", "dev", "test"]
 test38 = ["bioconda", "dev", "test", "test38"]
 test39 = ["bioconda", "dev", "test", "test39"]
 test310 = ["bioconda", "dev", "test", "test310"]
@@ -100,18 +77,32 @@ test310 = ["bioconda", "dev", "test", "test310"]
 pip = "*"
 
 [tool.pixi.feature.base.dependencies]
-# https://bioconda.github.io/faqs.html#what-versions-are-supported
 python = ">=3.8,<3.11"
+# https://bioconda.github.io/faqs.html#what-versions-are-supported
+# when pixi add polars to pypi-dependencies it was trying to build it with cargo
+# adding it here to use pre-built objects from conda-forge
+polars = ">=1.0.0"
+
+[tool.pixi.feature.docs.dependencies]
+sphinx = "*"
+sphinx-autobuild = "*"
+sphinx-copybutton = "*"
+sphinx-tabs = "*"
+myst-parser = "*"
+shibuya = "*"
 
 [tool.pixi.feature.dev.dependencies]
-pdm = ">=2.12.4,<2.13"
+pre-commit = "<3.0.0,>=2.15.0"
+mypy = ">=0.982"
+pytest = ">=7.2.0"
+pytest-cov = ">=4.1.0"
 
 [tool.pixi.feature.prod.dependencies]
-tomlkit = ">=0.12.4,<0.13"
-rich = ">=13.7.1,<13.8"
-click-rich-help = ">=22.1.1,<22.2"
-click = ">=8.1.7,<8.2"
-polars = ">=0.20.13,<0.21"
+rich = ">=12.0.0"
+tomlkit = ">=0.10.1"
+click-rich-help = ">=22.1.0"
+click = ">=8.1.0"
+polars = ">=1.0.0"
 
 [tool.pixi.feature.bioconda.dependencies]
 cutadapt = ">=4.6,<5"
@@ -121,7 +112,10 @@ pysam = ">=0.22.0,<0.23"
 
 [tool.pixi.feature.test.dependencies]
 pytest = ">=7.2.0"
-pytest-cov= ">=4.1.0"
+pytest-cov = ">=4.1.0"
+
+[tool.pixi.feature.tutorial.dependencies]
+ipykernel = "*"
 
 [tool.pixi.feature.test38.dependencies]
 python = "3.8.*"
@@ -131,12 +125,10 @@ python = "3.9.*"
 python = "3.10.*"
 
 [tool.pixi.feature.build.dependencies]
-build = "*"
-pdm-backend = "*"
-git = "*" # for scm-versioning with pdm
-
-[tool.pixi.feature.dev.tasks]
-postinstall = "pdm install"
+python-build = ">=1.2.1,<2"
+setuptools = "*"
+setuptools_scm = "*"
+git = "*"                   # for scm-versioning with setuptools_scm
 
 [tool.pixi.feature.build.tasks]
 build-wheel = "python -m build --no-isolation --wheel ."

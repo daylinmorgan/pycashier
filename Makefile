@@ -19,7 +19,7 @@ build: ## build-{dist,docker}
 	$(MAKE) build-docker
 
 build-dist: ## make wheel & source distribution
-	pdm build
+	pixi run build-wheel
 
 ## build-docker |> build and tag docker image with version
 build-docker:
@@ -39,7 +39,6 @@ conda-env: pixi.toml pixi.lock ##
 	pixi install -e dev
 
 setup-env: ##
-	pixi run -e dev pdm install
 	pixi run -e dev pre-commit install
 
 .PHONY: version-check

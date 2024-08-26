@@ -11,11 +11,8 @@ Please submit an issue with a detailed bug report or feature request prior to op
 > Most important development tasks are covered by recipes within the [`Makefile`](./Makefile).
 > See `make help` for more info.
 
-The development for `pycashier` is managed by a combination
-of [`pixi`](https://github.com/prefix-dev/pixi)
-and [`pdm`](https://github.com/pdm-project/pdm).
-
-It's only necessary to install `pixi` as `pdm` is installed directly in the `pixi`-managed `conda` environment.
+The development for `pycashier` is managed by [`pixi`](https://github.com/prefix-dev/pixi).
+You can use the included `Makefile` to setup `pixi` envs and `pre-commit`.
 
 ```sh
 make env
@@ -26,7 +23,6 @@ Or directly calling the commands invoked my `make env`:
 
 ```sh
 pixi install -e dev
-pixi run -e dev pdm install
 pixi run -e dev pre-commit install
 pixi shell -e dev
 ```
