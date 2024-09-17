@@ -68,7 +68,7 @@ platforms = ["linux-64"]
 
 [tool.pixi.environments]
 dev = ["base", "bioconda", "dev", "build", "docs", "tutorial", "test"]
-docs = ["base", "docs", "tutorial"]
+docs = ["base", "docs", "tutorial", "bioconda"]
 prod = ["base", "bioconda", "prod"]
 build = ["base", "build"]
 test = ["base", "bioconda", "dev", "test"]
@@ -121,7 +121,11 @@ pytest-cov = ">=4.1.0"
 pycashier = { path = ".", editable = true }
 
 [tool.pixi.feature.tutorial.dependencies]
-ipykernel = "*"
+jupyter = "*"
+altair = ">=5.4"
+
+[tool.pixi.feature.tutorial.pypi-dependencies]
+pycashier = { path = ".", editable = true }
 
 [tool.pixi.feature.test38.dependencies]
 python = "3.8.*"
